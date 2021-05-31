@@ -1,55 +1,19 @@
 <?php  
-   if (!isset($_SESSION['TYPE'])=='Administrator'){
-      redirect(web_root."index.php");
-     }
-
-  @$id = $_GET['id'];
-    if($id==''){
-  redirect("index.php");
+if(!isset($_SESSION['BorrowerId'])){
+  redirect(web_root."index.php");
 }
+ $id = $_SESSION['BorrowerId'];
   $borrower = new Borrower();
   $res = $borrower->single_borrower($id)
 
 ?> 
 
-
- <div class="card shadow mb-4">
-  <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">Change New Password</h6>
-  </div>
-  <div class="card-body">
-    <div class="table-responsive">  
+ 
 
  <form class="form-horizontal span6" action="controller.php?action=changepassword" method="POST" onsubmit="return validateRetypePassword()">
 
  
-                 <input class="form-control input-sm" id="BorrowerId" name="BorrowerId" placeholder=
-                    "Account Id" type="Hidden" value="<?php echo $res->BorrowerId; ?>">
-     
-                  <div class="form-group">
-                    <div class="col-md-8 row">
-                      <label class="col-md-2 control-label" for=
-                      "user_name">Name:</label>
-
-                      <div class="col-md-8">
-
-                        <?php echo $res->Firstname . ' ' .  $res->MiddleName . ' ' . $res->Lastname; ?>
-                        
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <div class="col-md-8 row">
-                      <label class="col-md-2 control-label" for=
-                      "user_email">Username:</label>
-
-                      <div class="col-md-8">
-                         <?php echo $res->BUsername; ?>
-                      </div>
-                    </div>
-                  </div>
-                  <hr/>
+       
 
                   <div class="form-group">
                     <div class="col-md-8">
@@ -89,8 +53,4 @@
 
               
  
-        </form>
-      
- </div>
-</div>
-</div>
+        </form> 

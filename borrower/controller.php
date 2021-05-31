@@ -1,8 +1,8 @@
 <?php
-require_once ("../../include/initialize.php");
-	 if (!isset($_SESSION['USERID'])){
-      redirect(web_root."admin/index.php");
-     }
+require_once ("../include/initialize.php");
+if(!isset($_SESSION['BorrowerId'])){
+	redirect(web_root."index.php");
+}
 
 $action = (isset($_GET['action']) && $_GET['action'] != '') ? $_GET['action'] : '';
 
@@ -20,7 +20,7 @@ switch ($action) {
 	break;
 
 	case 'photos' :
-	doupdateimage();
+	doChangeImage();
 	break;
    
 	case 'changepassword' :
@@ -86,8 +86,8 @@ switch ($action) {
 			redirect('index.php?view=add');
 		}else{	
 
-				$picture = UploadImage();
-			    $location = "photos/". $picture ;
+				// $picture = UploadImage();
+			 //    $location = "photos/". $picture ;
 
 
 					$borrower = New Borrower();  
@@ -100,69 +100,56 @@ switch ($action) {
 					$borrower->CourseYear			= $_POST['CourseYear'];
 					$borrower->BUsername			= $_POST['BUsername']; 
 					
-					if ($location!='photos/') {
-						$borrower->BorrowerPhoto	= $location;  
-					}
-					$borrower->Stats				= 'Active';
-					$borrower->BorrowerType			= 'Students';  
-					$borrower->update($_POST['BorrowerId']);
+					// if ($location!='photos/') {
+					// 	$borrower->BorrowerPhoto	= $location;  
+					// }
+					// $borrower->Stats				= 'Active';
+					// $borrower->BorrowerType			= 'Students';  
+
+					$borrower->update($_SESSION['BorrowerId']);
 		 
 
-				message("Borrower has been updated!", "success"); 
-		       redirect("index.php?view=edit&id=".$_POST['BorrowerId']);
+				message("Account has been updated!", "success"); 
+		       redirect("index.php");
 	    	} 
 	 
 	}
 
 } 
-	function doDelete(){
-		
-		// if (isset($_POST['selector'])==''){
-		// message("Select the records first before you delete!","error");
-		// redirect('index.php');
-		// }else{
+ function doChangeImage(){ 
+			$picture = UploadImage();
+			$location = "photos/". $picture ;
 
-		// $id = $_POST['selector'];
-		// $key = count($id);
 
-		// for($i=0;$i<$key;$i++){
+				$borrower = New Borrower();  
 
-		// 	$subj = New Student();
-		// 	$subj->delete($id[$i]);
 
-		
-				$id = 	$_GET['id'];
+			if ($location!='photos/') {
+				$borrower->BorrowerPhoto	= $location;   
+				$borrower->update($_SESSION['BorrowerId']);
+		  
+			   message("Picture has been changed!", "success"); 
+		       redirect("index.php");
+	    	}  
+} 
 
-				$borrower = New Borrower();
-	 		 	$borrower->delete($id);
-			 
-		
-		// }
-			message("Borrower(s) already Deleted!","success");
-			redirect('index.php');
-		// }
+function doChangePassword(){
+global $mydb;
+if(isset($_POST['save'])){
 
-		
+		$borrower = New Borrower();  
+		$borrower->BPassword			=sha1($_POST['user_pass']); 
+		$borrower->update($_SESSION['BorrowerId']); 
+
+		  message("Password has been changed!", "success");
+		  redirect("index.php");
 	}
-
-
-  function doChangePassword(){
-		global $mydb;
-	if(isset($_POST['save'])){
-
-			$borrower = New Borrower();  
-			$borrower->BPassword			=sha1($_POST['user_pass']); 
-			$borrower->update($_POST['BorrowerId']); 
-
-			  message("Password has been changed!", "success");
-			  redirect("index.php?view=changepassword&id=".$_POST['BorrowerId']);
-		}
-	}
+}
 
    
  
-  function UploadImage(){
-			$target_dir = "photos/";
+function UploadImage(){
+			$target_dir = "../admin/borrower/photos/";
 			$target_file = $target_dir . date("dmYhis") . basename($_FILES["picture"]["name"]);
 			$uploadOk = 1;
 			$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);

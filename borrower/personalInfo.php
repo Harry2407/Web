@@ -1,31 +1,7 @@
-<?php  
-if(!isset($_SESSION['BorrowerId'])){
-  redirect(web_root."index.php");
-}
-  
-// $autonum = New Autonumber();
-// $res = $autonum->single_autonumber(2);
- @$id = $_GET['id'];
-    if($id==''){
-  redirect("index.php");
-}
-  
 
-  $borrower = new Borrower();
-  $res = $borrower->single_borrower($id)
- ?> 
- 
- <div class="card shadow mb-4">
-  <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">Add New Borrower</h6>
-  </div>
-  <div class="card-body"> 
- 
-        <form class="form-horizontal span6  wow fadeInDown" action="controller.php?action=edit" method="POST" enctype="multipart/form-data">
+<form class="form-horizontal span6  wow fadeInDown" action="controller.php?action=edit" method="POST" enctype="multipart/form-data">
 
-          <div class="row">
-            <div class="col-md-8">
-              <div class="form-group">
+ <div class="form-group">
             <div class="row">
               <label class="col-md-2 control-label" for=
               "BorrowerId">Borrower ID</label>
@@ -141,7 +117,7 @@ if(!isset($_SESSION['BorrowerId'])){
             </div>
           </div>
 
-                      <div class="form-group">
+          <div class="form-group">
             <div class="row">
               <label class="col-md-2 control-label" for=
               "BUsername">Username:</label>
@@ -154,33 +130,13 @@ if(!isset($_SESSION['BorrowerId'])){
             </div>
           </div> 
 
-              
-
-
-          
-            </div>
-              <div class="col-md-4 strecth">         
-                      
-                     <img id="blah" title="profile image" class="img-hover"    src="<?php echo $res->BorrowerPhoto; ?>" width="300px" height="200px"> 
-                      
-                    <input type="file" name="picture"  id="imgInp" /> 
-            </div>
-
-          </div>
-
-           
           <div class="form-group">
             <div class="row"> 
+               <label class="col-md-2 control-label" for=
+              "BUsername"></label>
               <div class="col-md-8">
                <button class="btn btn-primary btn-md" name="save" type="submit" ><span class="fa fa-save fw-fa"></span>  Save</button>  
                </div>
             </div>
           </div> 
-
-        </form>
-
-       
-                 
-    </div><!--/.row-->  
-</div><!--/.container--> 
- 
+</form>

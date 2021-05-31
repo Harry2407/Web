@@ -1,8 +1,7 @@
 <?php 
- if (!isset($_SESSION['USERID'])){
-    redirect(web_root."admin/index.php");
-   }
-
+if(!isset($_SESSION['BorrowerId'])){
+  redirect(web_root."index.php");
+}
   $autonumber = New Autonumber();
   $auto = $autonumber->set_autonumber("BorrowerID"); 
  ?> 
